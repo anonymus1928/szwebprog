@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'HomeController@index');
 
 Route::get('/kapcsolat', function () {
     return view('contact');
@@ -23,4 +21,4 @@ Route::get('/kapcsolat', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+

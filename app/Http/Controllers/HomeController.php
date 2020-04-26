@@ -4,18 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\User;
+use App\Subject;
+//use App\Task;
+//use App\Solution;
+
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -23,6 +18,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', [ 'teachers'  => User::All()->where('teacher', true)->Count(),
+                              'students'  => User::All()->where('teacher', false)->Count(),
+                              'tasks'     => 0,
+                              'solutions' => 0,
+                            ]);
     }
 }

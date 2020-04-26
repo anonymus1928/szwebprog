@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -28,20 +27,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     public function teacher_subjects() {
         return $this->hasMany(Subject::class);
     }
 
     public function student_subjects() {
         return $this->belongsToMany(Subject::class);
+    }
+
+    public function solutions() {
+        return $this->belongsToMany(Solution::class);
     }
 }
