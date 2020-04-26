@@ -49,7 +49,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if($user->teacher) {
-            return redirect('/tanar');
+            return redirect('/oktato');
         } else {
             return redirect('/hallgato');
         }

@@ -35,7 +35,7 @@ class RegisterController extends Controller
     protected function redirectTo()
     {
         if(Auth::user()->teacher) {
-            return '/tanar';
+            return '/oktato';
         } else {
             return '/hallgato';
         }

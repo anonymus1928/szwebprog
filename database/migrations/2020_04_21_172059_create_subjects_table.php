@@ -18,10 +18,10 @@ class CreateSubjectsTable extends Migration
             $table->timestamps();
 
             $table->string('name',255);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('code',100)->unique();
             $table->integer('credit');
-            $table->boolean('public');
+            $table->boolean('public')->default(false);
             
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

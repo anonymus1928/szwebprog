@@ -36,6 +36,6 @@ class User extends Authenticatable
     }
 
     public function solutions() {
-        return $this->belongsToMany(Solution::class);
+        return $this->hasMany(Solution::class);
     }
 }

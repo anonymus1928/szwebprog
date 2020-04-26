@@ -15,6 +15,6 @@ class Solution extends Model
     }
 
     public function student() {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }
