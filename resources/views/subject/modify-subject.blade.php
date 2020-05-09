@@ -3,7 +3,7 @@
 @section('content')
     <div class="content mx-auto" style="width: 60%;">
         <h1>Tárgy szerkesztő</h1>
-        <form action="{{ route('store-subject') }}" method="POST">
+        <form action="{{ isset($subject) ? route('update-subject', ['code' => $subject->code]) : route('store-subject') }}" method="POST">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-4">

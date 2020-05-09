@@ -16,6 +16,7 @@ class LmsSeeder extends Seeder
             SubjectSeeder::class,
             TaskSeeder::class,
             SolutionSeeder::class,
+            SubjectStudentSeeder::class,
         ]);
     }
 }

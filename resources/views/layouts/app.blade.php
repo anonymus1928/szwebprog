@@ -41,11 +41,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">Bejelentkezés</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">Regisztráció</a>
                                 </li>
                             @endif
                         @else
@@ -57,18 +57,26 @@
 
                             @if(Auth::user()->teacher)
                                 <li class="nav-item">
-                                    <a href="{{ route('teacher') }}" class="nav-link">{{ __('My_subjects') }}</a>
+                                    <a href="{{ route('teacher') }}" class="nav-link">Tárgyaim</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('create-subject') }}" class="nav-link">{{ __('New_subject') }}</a>
+                                    <a href="{{ route('create-subject') }}" class="nav-link">Új tárgy meghirdetése</a>
                                 </li>
                             @else
-
+                                <li class="nav-item">
+                                    <a href="{{ route('student') }}" class="nav-link">Tárgyaim</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('assign-list') }}" class="nav-link">Tárgy felvétele</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link disabled">Feladatok listája</a>
+                                </li>
                             @endif
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    Kijelentkezés
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf

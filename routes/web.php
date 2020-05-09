@@ -26,7 +26,7 @@ Route::get('/profile', function () {
 
 // Main pages
 Route::get('/oktato',                'TeacherController@index'       )        ->name('teacher');
-//Route::get('/hallgato',            'StudentController@index'       )        ->name('student');
+Route::get('/hallgato',              'StudentController@index'       )        ->name('student');
 
 // New Subject
 Route::get('/targy-modositas',         'TeacherController@indexAdd'    )      ->name('create-subject');
@@ -37,13 +37,20 @@ Route::get('targy-modositas/{code}',   'TeacherController@indexEdit'   )      ->
 Route::post('targy-modositas/{code}',   'TeacherController@update'      )      ->name('update-subject');
 
 // Delete Subject
-//Route::post('targy-torles',            'TeacherController@delete'      )      ->name('delete-subject');
+Route::post('targy-torles',            'TeacherController@delete'      )      ->name('delete-subject');
 
 // Get Subject
 Route::get('/{code}',                'TeacherController@getSubject'  )        ->where(['code' => '^IK-[A-Z]{3}[0-9]{3}'])->name('subject');
 
 // Toggle Subject pulicity
 Route::post('/oktato/{code}',                'TeacherController@togglePublicity'  )    ->name('toggle-publicity');
+
+// Subject drop
+Route::post('/lead',                    'StudentController@drop'  )                      ->name('drop');
+
+// Subject assign
+Route::get('/targyfelvetel',             'StudentController@indexAssign')          ->name('assign-list');
+Route::post('/felvesz',                   'StudentController@assign')               ->name('assign');
 
 Auth::routes();
 

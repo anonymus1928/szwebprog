@@ -12,7 +12,7 @@ class TeacherController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
-        $this->middleware('checkteacher');
+        $this->middleware('checkteacher')->except('getSubject');
     }
 
     public function index() {
@@ -48,12 +48,22 @@ class TeacherController extends Controller
         return view('subject.modify-subject')->with('subject', $subject);
     }
 
-    public function update($code) {
+    public function update(Request $request, $code) {
         $subject = Subject::where('code', $code)->firstOrFail();
+        $validated = $request->validate([
+            'name' => 'required|min:3',
+            'code' => 'required|size:9|regex:/^IK-[A-Z]{3}[0-9]{3}/|unique:subjects,id,' . $subject->id,
+            'credit' => 'required|numeric',
+            'description' => 'nullable',
+        ]);
+        $subject->update($validated);
+        return redirect()->route('subject', ['code' => $subject->code]);
     }
 
-    public function delete() {
-        //
+    public function delete(Request $request) {
+        $subject = Subject::where('code',$request->input('code'))->firstOrFail();
+        $subject->delete();
+        return redirect()->route('teacher');
     }
 
     public function getSubject($code) {

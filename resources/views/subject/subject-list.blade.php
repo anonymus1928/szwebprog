@@ -2,8 +2,21 @@
 
 @section('content')
     <div class="content mx-auto" style="width: 60%;">
+        @if (isset($assign))
+            <h1 class="my-3">Tárgyfelvétel</h1>
+        @else
+            @if (Auth::user()->teacher)
+                <div class="row">
+                    <div class="col-6"><h1 class="my-3">Tanított tárgyaim</h1></div>
+                    <div class="col-6 my-auto text-right"><a class="btn btn-success btn-lg" href="{{ route('create-subject') }}"><i class="fa fa-plus"></i> Új tárgy meghirdetése</a></div>
+                </div>
+            @else
+                <h1 class="my-3">Felvett tárgyaim</h1>
+            @endif
+            
+        @endif
 
-        @foreach ($subjects as $subject)
+        @forelse ($subjects as $subject)
 
             <div class="card mb-3">
                 <div class="card-header pb-0 px-0 mx-0 border-bottom-0 row">
@@ -25,7 +38,7 @@
                 <div class="card-body row">
                     <div class="tab-content col-md-4" id="{{ $subject->code }}-tabContent">
                         <div class="tab-pane fade show active" id="{{ $subject->code }}-home" role="tabpanel" aria-labelledby="{{ $subject->code }}-home-tab">
-                            <h5 class="card-title">{{ $subject->name }} <small>({{ $subject->code }})</small></h5>
+                            <h5 class="card-title"><a href="{{ route('subject', ['code' => $subject->code]) }}">{{ $subject->name }}</a> <small>({{ $subject->code }})</small></h5>
                             <p class="mb-0">Kredit: {{ $subject->credit }}</p>
 
                         </div>
@@ -42,17 +55,34 @@
 
                     </div>
                     <div class="col-md-8 text-right">
-                        <a href="{{ route('subject', ['code' => $subject->code]) }}" class="btn btn-primary">Megtekintés</a>
-                        <a href="{{ route('edit-subject', ['code' => $subject->code]) }}" class="btn btn-primary">Szerkesztés</a>
-                        <form action="{{ route('toggle-publicity', ['code' => $subject->code]) }}" method="post" style="display: inline;">
-                            @csrf
-                            <button class="btn btn-{{ $subject->public ? 'danger' : 'success' }}"><i class="fa fa-{{ $subject->public ? 'times' : 'check' }}"></i> {{ $subject->public ? 'Publikálás visszavonása' : 'Publikálás' }}</button>
-                        </form>
+                        @if (isset($assign))
+                            <a class="btn btn-success text-white" onclick="document.getElementById('{{ $subject->code }}-assign').submit();">Felvesz</a>
+                            <form id="{{ $subject->code }}-assign" action="{{ route('assign') }}" method="post" class="d-none">
+                                @csrf
+                                <input type="number" name="id" value="{{ $subject->id }}">
+                            </form>
+                        @else
+                            <a href="{{ route('subject', ['code' => $subject->code]) }}" class="btn btn-primary">Megtekintés</a>
+                            @if (Auth::user()->teacher)
+                                <a href="{{ route('edit-subject', ['code' => $subject->code]) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Szerkesztés</a>
+                                <form action="{{ route('toggle-publicity', ['code' => $subject->code]) }}" method="post" style="display: inline;">
+                                    @csrf
+                                    <button class="btn btn-{{ $subject->public ? 'danger' : 'success' }}"><i class="fa fa-{{ $subject->public ? 'times' : 'check' }}"></i> {{ $subject->public ? 'Publikálás visszavonása' : 'Publikálás' }}</button>
+                                </form>
+                            @else
+                                <a class="btn btn-danger text-white" onclick="document.getElementById('{{ $subject->code }}-down').submit();">Lead</a>
+                                <form id="{{ $subject->code }}-down" action="{{ route('drop') }}" method="post" class="d-none">
+                                    @csrf
+                                    <input type="number" name="id" value="{{ $subject->id }}">
+                                </form>
+                            @endif
+                        @endif
+                            
                     </div>
                 </div>
             </div>
-
-        @endforeach
-
+        @empty
+            <div class="alert alert-primary" role="alert">Nincs megjeleníthető tárgy!</div>
+        @endforelse
     </div>
 @endsection
