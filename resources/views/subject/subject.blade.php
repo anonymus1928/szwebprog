@@ -24,10 +24,10 @@
                 </div>
                 <div class="col-5">
                     <p><i class="fa fa-history"></i> Létrehozva: {{ $subject->created_at }}</p>
+                    <p><i class="fa fa-history"></i> Utoljára módosítva: {{ $subject->updated_at }}</p>
                     @if (!Auth::user()->teacher)
-                        <p><i class="fa fa-history"></i> Utoljára módosítva: {{ $subject->updated_at }}</p>
+                        <p>Tanár: {{ $subject->teacher->name }} | <em>{{ $subject->teacher->email }}</em></p>
                     @endif
-                    <p>Tanár: {{ $subject->teacher->name }} | <em>{{ $subject->teacher->email }}</em></p>
                 </div>
             </div>
             <div class="card-footer row m-0">

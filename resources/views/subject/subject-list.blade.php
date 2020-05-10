@@ -22,11 +22,11 @@
                 <div class="card-header pb-0 px-0 mx-0 border-bottom-0 row">
                     <nav class="col">
                         <div class="nav nav-tabs" id="{{ $subject->code }}-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="{{ $subject->code }}-home-tab" data-toggle="tab" href="#{{ $subject->code }}-home" role="tab" aria-controls="{{ $subject->code }}-home" aria-selected="true">Adatlap</a>
-                            <a class="nav-item nav-link {{ is_null($subject->description) ? 'disabled' : '' }}" id="{{ $subject->code }}-profile-tab" data-toggle="tab" href="#{{ $subject->code }}-profile" role="tab" aria-controls="{{ $subject->code }}-profile" aria-selected="false">Leírás</a>
+                            <a class="nav-item nav-link active" id="{{ $subject->code }}-home-tab" data-toggle="tab" href="#{{ $subject->code }}-home" role="tab" aria-controls="{{ $subject->code }}-home" aria-selected="true" onclick="document.getElementById('{{ $subject->code }}-home').classList.add('d-flex');">Adatlap</a>
+                            <a class="nav-item nav-link {{ is_null($subject->description) ? 'disabled' : '' }}" id="{{ $subject->code }}-profile-tab" data-toggle="tab" href="#{{ $subject->code }}-profile" role="tab" aria-controls="{{ $subject->code }}-profile" aria-selected="false" onclick="document.getElementById('{{ $subject->code }}-home').classList.remove('d-flex');">Leírás</a>
                             
                             @if(!Auth::user()->teacher)
-                                <a class="nav-item nav-link" id="{{ $subject->code }}-teacher-tab" data-toggle="tab" href="#{{ $subject->code }}-teacher" role="tab" aria-controls="{{ $subject->code }}-teacher" aria-selected="true">Tanár</a>
+                                <a class="nav-item nav-link" id="{{ $subject->code }}-teacher-tab" data-toggle="tab" href="#{{ $subject->code }}-teacher" role="tab" aria-controls="{{ $subject->code }}-teacher" aria-selected="true" onclick="document.getElementById('{{ $subject->code }}-home').classList.remove('d-flex');">Tanár</a>
                             @endif
 
                         </div>
@@ -37,12 +37,12 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="{{ $subject->code }}-tabContent">
-                        <div class="tab-pane fade show active row" id="{{ $subject->code }}-home" role="tabpanel" aria-labelledby="{{ $subject->code }}-home-tab">
-                            <div class="col-md-4">
+                        <div class="tab-pane fade show active d-flex" id="{{ $subject->code }}-home" role="tabpanel" aria-labelledby="{{ $subject->code }}-home-tab">
+                            <div class="flex-fill">
                                 <h5 class="card-title"><a href="{{ route('subject', ['code' => $subject->code]) }}">{{ $subject->name }}</a> <small>({{ $subject->code }})</small></h5>
-                            <p class="mb-0">Kredit: {{ $subject->credit }}</p>
+                                <p class="mb-0">Kredit: {{ $subject->credit }}</p>
                             </div>
-                            <div class="col-md-8 text-right">
+                            <div class="flex-fill flex-wrap text-right" style="min-width: 55%;">
                                 @if (isset($assign))
                                     <a class="btn btn-success text-white" onclick="document.getElementById('{{ $subject->code }}-assign').submit();">Felvesz</a>
                                     <form id="{{ $subject->code }}-assign" action="{{ route('assign') }}" method="post" class="d-none">
@@ -73,8 +73,7 @@
 
                         @if(!Auth::user()->teacher)
                             <div class="tab-pane fade" id="{{ $subject->code }}-teacher" role="tabpanel" aria-labelledby="{{ $subject->code }}-teacher-tab">
-                                <p class="card-text">Név: {{ $subject->teacher->name }}</p>
-                                <p class="card-text">Email: {{ $subject->teacher->email }}</p>
+                                <p class="card-text">Név: {{ $subject->teacher->name }}<br>Email: {{ $subject->teacher->email }}</p>
                             </div>
                         @endif
 
