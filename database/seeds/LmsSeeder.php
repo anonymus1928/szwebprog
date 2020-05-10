@@ -14,8 +14,8 @@ class LmsSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             SubjectSeeder::class,
-            TaskSeeder::class,
-            SolutionSeeder::class,
+            //TaskSeeder::class,
+            //SolutionSeeder::class,
             SubjectStudentSeeder::class,
         ]);
     }

@@ -13926,3 +13926,7 @@ a.text-dark:focus {
   clip: auto;
 }
 
+.tab-content > .active {
+  display: flex !important;
+}
+

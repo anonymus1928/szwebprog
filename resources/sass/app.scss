@@ -9,3 +9,7 @@
 
 // Font-Awesome
 @import '~font-awesome/scss/font-awesome.scss';
+
+.tab-content > .active {
+    display: flex !important;
+}

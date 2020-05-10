@@ -35,12 +35,37 @@
                         <h5 class="mb-0"><i>{{ $subject->name }}</i></h5>
                     </div>
                 </div>
-                <div class="card-body row">
-                    <div class="tab-content col-md-4" id="{{ $subject->code }}-tabContent">
-                        <div class="tab-pane fade show active" id="{{ $subject->code }}-home" role="tabpanel" aria-labelledby="{{ $subject->code }}-home-tab">
-                            <h5 class="card-title"><a href="{{ route('subject', ['code' => $subject->code]) }}">{{ $subject->name }}</a> <small>({{ $subject->code }})</small></h5>
+                <div class="card-body">
+                    <div class="tab-content" id="{{ $subject->code }}-tabContent">
+                        <div class="tab-pane fade show active row" id="{{ $subject->code }}-home" role="tabpanel" aria-labelledby="{{ $subject->code }}-home-tab">
+                            <div class="col-md-4">
+                                <h5 class="card-title"><a href="{{ route('subject', ['code' => $subject->code]) }}">{{ $subject->name }}</a> <small>({{ $subject->code }})</small></h5>
                             <p class="mb-0">Kredit: {{ $subject->credit }}</p>
-
+                            </div>
+                            <div class="col-md-8 text-right">
+                                @if (isset($assign))
+                                    <a class="btn btn-success text-white" onclick="document.getElementById('{{ $subject->code }}-assign').submit();">Felvesz</a>
+                                    <form id="{{ $subject->code }}-assign" action="{{ route('assign') }}" method="post" class="d-none">
+                                        @csrf
+                                        <input type="number" name="id" value="{{ $subject->id }}">
+                                    </form>
+                                @else
+                                    <a href="{{ route('subject', ['code' => $subject->code]) }}" class="btn btn-primary">Megtekintés</a>
+                                    @if (Auth::user()->teacher)
+                                        <a href="{{ route('edit-subject', ['code' => $subject->code]) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Szerkesztés</a>
+                                        <form action="{{ route('toggle-publicity', ['code' => $subject->code]) }}" method="post" style="display: inline;">
+                                            @csrf
+                                            <button class="btn btn-{{ $subject->public ? 'danger' : 'success' }}"><i class="fa fa-{{ $subject->public ? 'times' : 'check' }}"></i> {{ $subject->public ? 'Publikálás visszavonása' : 'Publikálás' }}</button>
+                                        </form>
+                                    @else
+                                        <a class="btn btn-danger text-white" onclick="document.getElementById('{{ $subject->code }}-down').submit();">Lead</a>
+                                        <form id="{{ $subject->code }}-down" action="{{ route('drop') }}" method="post" class="d-none">
+                                            @csrf
+                                            <input type="number" name="id" value="{{ $subject->id }}">
+                                        </form>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="{{ $subject->code }}-profile" role="tabpanel" aria-labelledby="{{ $subject->code }}-profile-tab">
                             <p class="card-text">{{ $subject->description }}</p>
@@ -53,31 +78,6 @@
                             </div>
                         @endif
 
-                    </div>
-                    <div class="col-md-8 text-right">
-                        @if (isset($assign))
-                            <a class="btn btn-success text-white" onclick="document.getElementById('{{ $subject->code }}-assign').submit();">Felvesz</a>
-                            <form id="{{ $subject->code }}-assign" action="{{ route('assign') }}" method="post" class="d-none">
-                                @csrf
-                                <input type="number" name="id" value="{{ $subject->id }}">
-                            </form>
-                        @else
-                            <a href="{{ route('subject', ['code' => $subject->code]) }}" class="btn btn-primary">Megtekintés</a>
-                            @if (Auth::user()->teacher)
-                                <a href="{{ route('edit-subject', ['code' => $subject->code]) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Szerkesztés</a>
-                                <form action="{{ route('toggle-publicity', ['code' => $subject->code]) }}" method="post" style="display: inline;">
-                                    @csrf
-                                    <button class="btn btn-{{ $subject->public ? 'danger' : 'success' }}"><i class="fa fa-{{ $subject->public ? 'times' : 'check' }}"></i> {{ $subject->public ? 'Publikálás visszavonása' : 'Publikálás' }}</button>
-                                </form>
-                            @else
-                                <a class="btn btn-danger text-white" onclick="document.getElementById('{{ $subject->code }}-down').submit();">Lead</a>
-                                <form id="{{ $subject->code }}-down" action="{{ route('drop') }}" method="post" class="d-none">
-                                    @csrf
-                                    <input type="number" name="id" value="{{ $subject->id }}">
-                                </form>
-                            @endif
-                        @endif
-                            
                     </div>
                 </div>
             </div>
