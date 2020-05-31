@@ -11,10 +11,10 @@ class Solution extends Model
     ];
 
     public function task() {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Task::class, 'task_id', 'id');
     }
 
     public function student() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

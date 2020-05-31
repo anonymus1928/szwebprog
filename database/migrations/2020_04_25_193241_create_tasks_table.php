@@ -22,6 +22,9 @@ class CreateTasksTable extends Migration
             $table->float('points',8,5);
             $table->timestamp('from',0);
             $table->timestamp('until',0)->nullable();
+
+            $table->unsignedBigInteger('subject_id');
+            $table->foreign('subject_id')->references('id')->on('subjects');
         });
     }
 

@@ -18,8 +18,10 @@ class CreateSolutionsTable extends Migration
             $table->timestamps();
 
             $table->string('file',255)->nullable();
+            $table->string('filename',255)->nullable();
             $table->text('text');
             $table->float('result',8,5)->nullable();
+            $table->text('comment')->nullable();
 
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('user_id');

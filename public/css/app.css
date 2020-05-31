@@ -13930,3 +13930,7 @@ a.text-dark:focus {
   display: flex !important;
 }
 
+.corrected {
+  background: linear-gradient(90deg, green, transparent 3%);
+}
+

@@ -70,7 +70,7 @@
                                     <a href="{{ route('assign-list') }}" class="nav-link">Tárgy felvétele</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link disabled">Feladatok listája</a>
+                                    <a href="{{ route('my-tasks') }}" class="nav-link">Feladatok listája</a>
                                 </li>
                             @endif
                             
@@ -83,6 +83,9 @@
                                 </form>
                             </li>
                         @endguest
+                        <li class="nav-item">
+                            <a href="{{ route('contact') }}" class="nav-link">Kapcsolat</a>
+                        </li>
                     </ul>
                 </div>
             </div>

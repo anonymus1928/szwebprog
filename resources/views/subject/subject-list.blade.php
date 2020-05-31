@@ -38,27 +38,26 @@
                 <div class="card-body">
                     <div class="tab-content" id="{{ $subject->code }}-tabContent">
                         <div class="tab-pane fade show active d-flex" id="{{ $subject->code }}-home" role="tabpanel" aria-labelledby="{{ $subject->code }}-home-tab">
-                            <div class="flex-fill">
+                            <div class="flex-grow-1">
                                 <h5 class="card-title"><a href="{{ route('subject', ['code' => $subject->code]) }}">{{ $subject->name }}</a> <small>({{ $subject->code }})</small></h5>
                                 <p class="mb-0">Kredit: {{ $subject->credit }}</p>
                             </div>
-                            <div class="flex-fill flex-wrap text-right" style="min-width: 55%;">
+                            <div class="text-right btn-group h-25" role="group" aria-label="Subject buttons">
                                 @if (isset($assign))
-                                    <a class="btn btn-success text-white" onclick="document.getElementById('{{ $subject->code }}-assign').submit();">Felvesz</a>
+                                    <a class="btn btn-success text-white rounded-right" onclick="document.getElementById('{{ $subject->code }}-assign').submit();">Felvesz</a>
                                     <form id="{{ $subject->code }}-assign" action="{{ route('assign') }}" method="post" class="d-none">
                                         @csrf
                                         <input type="number" name="id" value="{{ $subject->id }}">
                                     </form>
                                 @else
-                                    <a href="{{ route('subject', ['code' => $subject->code]) }}" class="btn btn-primary">Megtekintés</a>
                                     @if (Auth::user()->teacher)
                                         <a href="{{ route('edit-subject', ['code' => $subject->code]) }}" class="btn btn-primary"><i class="fa fa-edit"></i> Szerkesztés</a>
-                                        <form action="{{ route('toggle-publicity', ['code' => $subject->code]) }}" method="post" style="display: inline;">
+                                        <a class="btn btn-{{ $subject->public ? 'danger' : 'success' }} text-white rounded-right" onclick="document.getElementById('{{ $subject->code }}-toggle').submit();"><i class="fa fa-{{ $subject->public ? 'times' : 'check' }}"></i> {{ $subject->public ? 'Publikálás visszavonása' : 'Publikálás' }}</a>
+                                        <form id="{{ $subject->code }}-toggle" action="{{ route('toggle-publicity', ['code' => $subject->code]) }}" method="post" class="d-none">
                                             @csrf
-                                            <button class="btn btn-{{ $subject->public ? 'danger' : 'success' }}"><i class="fa fa-{{ $subject->public ? 'times' : 'check' }}"></i> {{ $subject->public ? 'Publikálás visszavonása' : 'Publikálás' }}</button>
                                         </form>
                                     @else
-                                        <a class="btn btn-danger text-white" onclick="document.getElementById('{{ $subject->code }}-down').submit();">Lead</a>
+                                        <a class="btn btn-danger text-white rounded-right" onclick="document.getElementById('{{ $subject->code }}-down').submit();">Lead</a>
                                         <form id="{{ $subject->code }}-down" action="{{ route('drop') }}" method="post" class="d-none">
                                             @csrf
                                             <input type="number" name="id" value="{{ $subject->id }}">
